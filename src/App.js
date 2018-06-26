@@ -6,18 +6,6 @@ import testdata from "./d20.json"
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
 import { HashRouter as Router, Route, Link } from 'react-router-dom'
 
-function filter() {
-  // 'larp' Q L
-  // 'NAGA' G
-  // 'DnD' N
-  // 'RPG' R
-  // 'BG' B
-  // 'Arena/Wargamming' A G
-  // 'Collectable' C
-  // 'Video Gaming' V
-  // 'Pencil puzzles' P
-  // 'Special Events and Panels' S
-}
 
 function makeEmailLink(recipient, subject, body) {
   const encodedBody = body.replace("\n", "%0A").replace(" ", "%20");
@@ -40,7 +28,6 @@ function Email(props) {
     </div>
   );
 }
-
 
 function SeeAlso(props) {
   const seeAlso = props.txt.split(",")
@@ -69,10 +56,12 @@ function PeopleList(props) {
 function Entry(props) {
   const e = props.dict;
   const savedClasses = "entry__saved" + (props.saved ? " entry__saved--saved" : "");
+  const isFull = e !== undefined && e.status.indexOf("FILLED") !== -1;
+  const idClasses = "entry__id" + (isFull ? " entry__id--filled" : "");
   return (
     <div className="entry" id={e.id}>
-      <div className="entry__title-row">
-        <div className="entry__id">{e.id}</div>
+        <div className="entry__title-row">
+        <div className={idClasses}>{e.id}</div>
         <div className="entry__name"> {e.name} </div>
         <div className="entry__type"> {e.type} </div>
         <div className={savedClasses} saved={e.saved}
@@ -142,6 +131,7 @@ class App extends Component {
       .filter((entry) => entry !== null);
     this.setState({
       larps: larps,
+      filters: [],
     });
   }
   email(e) {
@@ -161,8 +151,33 @@ class App extends Component {
       db: newDb,
     });
   }
+  filter(e) {
+      const value = e.target.value;
+      let filters = [];
+      if (value === "LARP") filters = ['Q', 'L'];
+      else if (value === "NAGA") filters = ['G'];
+      else if (value === "DnD") filters = ['N'];
+      else if (value === "RPG") filters = ['R'];
+      else if (value === "Board Games") filters = ['B'];
+      else if (value === "Arena/Wargamming") filters = ['A', 'G'];
+      else if (value === "Collectable Games") filters = ['C'];
+      else if (value === "Video Games") filters = ['V'];
+      else if (value === "Pencil Puzzles") filters = ['P'];
+      else if (value === "Special Events & Panels") filters = ['S'];
+      else filters = [];
+      this.setState({
+          filters: filters,
+      });
+  }
   render() {
-    const larpEntries = this.state.larps.map((le) => {
+      const filters = this.state.filters;
+      const larpEntries = this.state.larps
+          .filter((le) => {
+              if (filters.length === 0) return true;
+              const startsWith = (filterLetter) => le.id.startsWith(filterLetter);
+              return filters.some(startsWith);
+          })
+          .map((le) => {
       const saved = this.state.db[le.id] || false;
       return (<Entry key={le.id} dict={le} 
         saved={saved}
@@ -183,16 +198,17 @@ class App extends Component {
           <input type="button" value="Card"></input>
         </div>
         <div className="filter-buttons">
-          <input type="button" value="LARP"></input>
-          <input type="button" value="NAGA"></input>
-          <input type="button" value="DnD"></input>
-          <input type="button" value="RPG"></input>
-          <input type="button" value="Board Games"></input>
-          <input type="button" value="Arena/Wargamming"></input>
-          <input type="button" value="Collectable Games"></input>
-          <input type="button" value="Video Games"></input>
-          <input type="button" value="Pencil Puzzles"></input>
-          <input type="button" value="Special Events & Panels"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="LARP"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="NAGA"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="DnD"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="RPG"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Board Games"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Arena/Wargamming"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Collectable Games"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Video Games"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Pencil Puzzles"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="Special Events & Panels"></input>
+        <input type="button" onClick={(e)=>this.filter(e)}  value="All"></input>
         </div>
         <div className="App-intro">
       {larpEntries}

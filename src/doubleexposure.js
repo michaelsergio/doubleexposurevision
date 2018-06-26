@@ -64,8 +64,6 @@ function parseEntry(txt) {
     const attitude = aaa[0].trim();
     const age = aaa[1].trim();
 
-    const last = finalParts[1].trim();
-
     let nextRound = "";
     let seeAlso = "";
     let status = "";

@@ -107,7 +107,6 @@ ul {
   display: flex;
   font-weight: bold;
   font-size: 20px;
-  margin-top: 5px;
 }
 .entry__description {
   font-size: 14px;
@@ -125,6 +124,7 @@ ul {
   font-size: 13px;
   display: flex;
   margin-top: 10px;
+  margin-bottom: 5px;
 }
 .entry__extras > div {
   margin: auto 10px auto 0;
@@ -138,7 +138,10 @@ ul {
 .entry__attitude {}
 .entry__age {}
 .entry__next-round {}
-.entry__status {}
+.entry__status {
+  color: red;
+  font-weight: bold;
+}
 
 
 .grid-buttons {
