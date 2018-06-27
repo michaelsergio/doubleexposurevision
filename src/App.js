@@ -8,6 +8,7 @@ import { HashRouter as Router,
          Route, Link, Switch, NavLink} from 'react-router-dom'
 import cn from 'classnames/bind';
 
+
 /*
  * TODO: 
  * Should have day dividers.
@@ -25,6 +26,20 @@ function EventItem(props) {
         <li className={dropdownClasses}
             onClick={props.changeEvent}>{name}</li>
     );
+}
+
+function getFilters(value) {
+      if (value === "LARP") return ['Q', 'L'];
+      else if (value === "NAGA") return ['G'];
+      else if (value === "DnD") return ['N'];
+      else if (value === "RPG") return ['R'];
+      else if (value === "Board Games") return ['B'];
+      else if (value === "Arena / Wargamming") return ['A', 'G'];
+      else if (value === "Collectable Games") return ['C'];
+      else if (value === "Video Games") return ['V'];
+      else if (value === "Pencil Puzzles") return ['P'];
+      else if (value === "Special Events & Panels") return ['S'];
+      else return [];
 }
 
 function Navigation(props) {
@@ -297,28 +312,36 @@ function Entry(props) {
   )
 }
 
+function isSelected(title, filters) {
+    const titleFilters = getFilters(title)
+    return titleFilters.length == filters.length && 
+        titleFilters.every((x) => filters.includes(x));
+}
+
 function FilterButtons(props) {
+    const currentFilter = props.currentFilter;
+    const filter = props.filter;
     const Button = (props) => {
         const value = props.value;
         const event = props.event;
-        return (<input type="button" onClick={filter} value={value}></input>);
     };
-    const filter = props.filter;
-    return ( 
-        <div className="filter-buttons">
-            <Button event={filter} value="All" />
-            <Button event={filter} value="LARP" />
-            <Button event={filter} value="NAGA" />
-            <Button event={filter} value="DnD" />
-            <Button event={filter} value="RPG" />
-            <Button event={filter} value="Board Games" />
-            <Button event={filter} value="Arena / Wargamming" />
-            <Button event={filter} value="Collectable Games" />
-            <Button event={filter} value="Video Games" />
-            <Button event={filter} value="Pencil Puzzles" />
-            <Button event={filter} value="Special Events & Panels" />
-        </div>
-    );
+    const titles = ["All", "LARP", "NAGA", "DnD", "RPG", "Board Games",
+        "Arena / Wargamming", "Collectable Games", "Video Games",
+        "Pencil Puzzles", "Special Events & Panels",
+    ];
+    const buttons = titles.map((t) => {
+        const selected = isSelected(t, currentFilter);
+        const buttonClasses = cn("btn", {
+            "btn-primary": selected,
+            "btn-secondary": !selected,
+        });
+        return (<input 
+            className={buttonClasses}
+            type="button" 
+            onClick={filter} 
+            value={t} />);
+    });
+    return (<div className="filter-buttons">{buttons}</div>);
 }
 
 class App extends Component {
@@ -401,18 +424,7 @@ class App extends Component {
   }
   filter(e) {
       const value = e.target.value;
-      let filters = [];
-      if (value === "LARP") filters = ['Q', 'L'];
-      else if (value === "NAGA") filters = ['G'];
-      else if (value === "DnD") filters = ['N'];
-      else if (value === "RPG") filters = ['R'];
-      else if (value === "Board Games") filters = ['B'];
-      else if (value === "Arena / Wargamming") filters = ['A', 'G'];
-      else if (value === "Collectable Games") filters = ['C'];
-      else if (value === "Video Games") filters = ['V'];
-      else if (value === "Pencil Puzzles") filters = ['P'];
-      else if (value === "Special Events & Panels") filters = ['S'];
-      else filters = [];
+      let filters = getFilters(value);
       this.setState({
           filters: filters,
       });
@@ -452,7 +464,9 @@ class App extends Component {
               searchChange={(e)=>this.searchChange(e)} 
           />
         <div className="title">Double Exposure Vision - {this.state.source}</div>
-        <FilterButtons filter={(e)=>this.filter(e)} />
+        <FilterButtons currentFilter={this.state.filters} 
+                       filter={(e)=>this.filter(e)} 
+        />
         <div className="App-intro">
             <Switch>
                 <Route path="/" exact render={(props) => 
