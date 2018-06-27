@@ -448,6 +448,7 @@ class App extends Component {
   clearFilter() {
       this.setState({
           searchFilter: "",
+          filters: [],
       });
   }
   render() {
