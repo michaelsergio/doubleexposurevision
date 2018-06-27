@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
 import App from './App';
-import testdata from './test.json';
+import testdata from './d20.json';
 
+/*
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+*/
 
 it ('should parse dom', () => {
     const page = testdata.contents;
@@ -86,7 +88,15 @@ it ('make sure status is included', () => {
     expect(parsedEntry.age).toEqual("Under 18 Requires Parental Clearance");
     expect(parsedEntry.status).toEqual("THIS EVENT HAS BEEN FILLED! You may sign up as an Alternate at the convention");
 });
-    /*
+
+it ('must handle no byline', () => {
+  const entry = 
+    `R0333: CONTINUUM (1.1); "The Electric Lamb". A DEXCON 20 EXCLUSIVE! The 2017 Aetherco CONTINUUM Championship. Temporary memory enhancement nano is one of the largest consumer products of the 21st Century. Obviously ancient Mesopotamian herdsmen shouldn't have it in their bodies. Let alone be able to manipulate people's behavior at vast distances of time. Your task is to span down to their era and untangle this paradox before you fall under their "spell". Don't presume easy superiority: Those herdsman know how to herd. Called "unusual" by the Sci-Fi Channel, and "unique and painfully satisfying" and "very cool" by player-reviewers on Amazon.com, CONTINUUM has broken new ground by logically solving every time travel conundrum, and actually made a civilization of time travelers outrageously playable. Saturday, 2:00PM - 6:00PM; One Round; All Materials Provided. Beginners Welcome; Serious, All Ages.`;
+    const parsedEntry = parseEntry(entry);
+    expect(parsedEntry.type).toEqual("CONTINUUM (1.1)");
+    expect(parsedEntry.name).toEqual("The Electric Lamb");
+});
+
 it ('parse an simple Entry', () => {
     const entry = `R0268: "Sentinels of the Multiverse RPG (Sneak Peek)". An Envoy Event! See R0213. Friday, 2:00PM - 6:00PM; One Round. See Also: R0355. THIS EVENT HAS BEEN FILLED! You may sign up as an Alternate at the convention.`;
     
@@ -113,4 +123,10 @@ it ('parse an simple Entry', () => {
     // TODO: Test simpler entry
 });
 
-*/
+it('is broken for some reason', () => {
+    const entry = 
+    `L031: Cthulhu Live! 3.5; "Shirley, You Can't Be Serious!" by PST Productions; presented by Emily Meyers. A DEXCON 21 EXCLUSIVE! "Good Morning, Passengers of Flight 468, departing soon for Mexico City! I will be your pilot today; Captain O'Vergh. My copilot is Roger Murtock and we anticipate about four hours of flight time today with mild weather conditions. There will be an inflight meal service as soon as we reach cruising altitude, your flight attendants will be coming around after the safety briefing and please let them know if you prefer the chicken or the fish.." were the last sane lines spoken on Flight 468, which was flying straight into a hilarious disaster no one could predict. The passengers may have to band together to save this flight from the lowest form of humor, and if they do not make any grave mistakes; perhaps they will survive! Trigger Warning: Claustrophobic Circumstances (Planes/Trains), Vehicular Accidents, Illnesses/Epidemics, Paronomasia. Friday, 8:00PM - 12:00AM; One Round; All Materials Provided. Beginners Welcome; Silly, 18 & Over ONLY.`;
+    const parsedEntry = parseEntry(entry);
+    expect(parsedEntry.name).toEqual("Shirley, You Can't Be Serious!");
+});
+
