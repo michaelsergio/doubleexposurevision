@@ -495,6 +495,15 @@ class App extends Component {
                     <Email {...props} entries={this.state.db} />}
                 />
                 <Route path="/info" exact component={Info} />
+                <Route path="/:id" exact render={(props) => 
+                    <EntryList {...props} entries={entries} db={db}
+                        filters={filters} 
+                        view={this.state.display}
+                        changeLayout={(e) => this.changeLayout(e)}
+                        clearFilter={(e) => this.clearFilter(e)}
+                        searchFilter={this.state.searchFilter}
+                        clickSave={this.clickSave.bind(this)} />}
+                />
             </Switch>
         </div>
       </div>
