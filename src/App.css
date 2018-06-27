@@ -92,12 +92,16 @@ ul {
   margin-left: 10px;
   margin-right: 40px;
   display: inline;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .entry__id {
   color: green;
   font-weight: bold;
   margin-right:8px;
   display: inline;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .entry__id--filled {
   color: #b50202;
