@@ -15,6 +15,53 @@ import cn from 'classnames/bind';
  * Add Agenda view for starred.
  */
 
+function EventItem(props) { 
+    const name = props.name;
+    const source = props.source;
+    const dropdownClasses = cn("dropdown-item", {
+        "event--active": name === source,
+    });
+    return (
+        <li className={dropdownClasses}
+            onClick={props.changeEvent}>{name}</li>
+    );
+}
+
+function Navigation(props) {
+    const source = props.source;
+    const changeEvent = props.changeEvent;
+    const searchChange = props.searchChange;
+    const searchFilter = props.searchFilter;
+
+    const events = ["Dex21", "Dex20"].map((x) => {
+        return (<EventItem name={x} source={source} 
+            changeEvent={changeEvent} />)
+    });
+    return (
+        <ul className="navigation" role="navigation">
+            <li><NavLink to="/" exact activeClassName="navigation--selected">List</NavLink></li>
+            <li><NavLink to="/people" activeClassName="navigation--selected">People</NavLink></li>
+            <li><NavLink to="/system" activeClassName="navigation--selected">Systems</NavLink></li>
+            <li><NavLink to="/starred" exact activeClassName="navigation--selected">Starred</NavLink></li>
+            <li><NavLink to="/email" activeClassName="navigation--selected">Email</NavLink></li>
+            <li><NavLink to="/info" exact activeClassName="navigation--selected">Info</NavLink></li>
+            <li className="dropdown show">
+                <div className="dropdown-toggle" data-toggle="dropdown" 
+                    id="dropdownMenuLink"
+                    aria-haspopup="true" aria-expanded="false">Events</div>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {events}
+                </div>
+            </li>
+            <li className="navigation__search"> <form>
+                    <input onChange={searchChange}
+                        placeholder="Search" value={searchFilter} />
+                </form>
+            </li>
+        </ul>
+    );
+}
+
 function GridButtons(props) {
     return (
         <div className="grid-buttons">
@@ -335,7 +382,7 @@ class App extends Component {
   changeEvent(e) {
       const value = e.target.textContent;
       this.setState({
-          source: value
+          source: value,
       });
       this.fromSource(value)
   }
@@ -398,28 +445,12 @@ class App extends Component {
     return (
         <Router>
       <div className="container">
-          <ul className="navigation" role="navigation">
-              <li><NavLink to="/" exact activeClassName="navigation--selected">List</NavLink></li>
-              <li><NavLink to="/people" activeClassName="navigation--selected">People</NavLink></li>
-              <li><NavLink to="/system" activeClassName="navigation--selected">Systems</NavLink></li>
-              <li><NavLink to="/starred" exact activeClassName="navigation--selected">Starred</NavLink></li>
-              <li><NavLink to="/email" activeClassName="navigation--selected">Email</NavLink></li>
-              <li><NavLink to="/info" exact activeClassName="navigation--selected">Info</NavLink></li>
-              <li className="dropdown show">
-                  <div className="dropdown-toggle" data-toggle="dropdown" 
-                      id="dropdownMenuLink"
-                      aria-haspopup="true" aria-expanded="false">Events</div>
-                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li className="dropdown-item" onClick={(e)=>this.changeEvent(e)}>Dex21</li>
-                      <li className="dropdown-item" onClick={(e)=>this.changeEvent(e)}>Dex20</li>
-                  </div>
-              </li>
-              <li className="navigation__search"> <form>
-                      <input onChange={(e)=>this.searchChange(e)} 
-                          placeholder="Search" value={this.state.searchFilter} />
-                  </form>
-              </li>
-      </ul>
+          <Navigation 
+              source={this.state.source}
+              searchFilter={this.state.searchFilter}
+              changeEvent={(e)=>this.changeEvent(e)}
+              searchChange={(e)=>this.searchChange(e)} 
+          />
         <div className="title">Double Exposure Vision - {this.state.source}</div>
         <FilterButtons filter={(e)=>this.filter(e)} />
         <div className="App-intro">
