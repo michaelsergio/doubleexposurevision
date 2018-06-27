@@ -35,7 +35,7 @@ ul {
 }
 .navigation {
   display: flex;
-  box-shadow: 5px 10px 20px -20px rgba(85,172,238);
+  box-shadow: 5px 10px 20px -20px rgba(85,172,238,1);
   border: 2px solid rgba(238,238,238 ,1);
   border-radius: 5px;
   padding: 0 0 0 10px;
@@ -75,6 +75,8 @@ ul {
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   background-color: white;
+  display: inline-block;
+  width: 100%;
 }
 .entry--filled {
   background-color: #eed8d8;
@@ -82,21 +84,18 @@ ul {
 .entry__name {
   font-weight: bold;
   font-size: 24px;
-  max-width: 540px;
+  max-width: 480px;
   display: inline;
 }
 .entry__type {
   font-size: 18px;
-  margin-top: auto;
-  margin-bottom: auto;
   margin-left: 10px;
+  margin-right: 40px;
   display: inline;
 }
 .entry__id {
   color: green;
   font-weight: bold;
-  margin-top: auto;
-  margin-bottom: auto;
   margin-right:8px;
   display: inline;
 }
@@ -104,7 +103,7 @@ ul {
   color: #b50202;
 }
 .entry__title-row {
-  display: block;
+  display: flex;
   position: relative;
 }
 .entry__save {
@@ -167,7 +166,6 @@ ul {
 .grid-buttons {
   position: relative;
   display: inline;
-  float: right;
   top: -44px;
 }
 .grid-buttons input {
@@ -199,7 +197,6 @@ ul {
 }
 .people-list {
   font-size: 14px;
-  display: inline-block;
   margin-right: 50px;
 }
 .people-list__title {
@@ -249,7 +246,6 @@ ul {
 .filter__clear {
   margin-left: 10px;
   font-size: 12px;
-
 }
 .starred-entries__none {
 }

@@ -135,6 +135,7 @@ function TypeList(props) {
 function StarredEntryList(props) {
     const entries = props.entries;
     const clickSave = props.clickSave;
+    const changeLayout = props.changeLayout;
     const db = props.db;
     const view = props.view;
     const entryList = entries
@@ -143,7 +144,7 @@ function StarredEntryList(props) {
             const saved = db[le.id] || false;
             return (
                 <div>
-                    <GridButtons changeLayout={(e) => this.changeLayout(e)} />
+                    <GridButtons changeLayout={changeLayout} />
                     <Entry key={le.id} dict={le} saved={saved} view={view}
                         clickSave={(e) => clickSave(e, le.id)} />
                 </div>
@@ -160,6 +161,7 @@ function EntryList(props) {
     const clearFilter = props.clearFilter;
     const db = props.db;
     const view = props.view;
+    const changeLayout = props.changeLayout;
     const searchFilter = props.searchFilter;
     const entryList = entries
         .filter((le) => {
@@ -195,7 +197,7 @@ function EntryList(props) {
             );
         });
     return (<div>
-        <GridButtons changeLayout={(e) => this.changeLayout(e)} />
+        <GridButtons changeLayout={changeLayout} />
         <FilterDescription filters={filters} 
             clearFilter={clearFilter}
             searchFilter={props.searchFilter} />
@@ -482,6 +484,7 @@ class App extends Component {
                 <Route path="/starred" exact render={(props) => 
                     <StarredEntryList {...props} entries={entries} db={db}
                         view={this.state.display}
+                        changeLayout={(e) => this.changeLayout(e)}
                         clickSave={this.clickSave.bind(this)} />}
                 />
                 <Route path="/people" exact render={(props) => 
