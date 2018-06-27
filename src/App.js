@@ -142,16 +142,19 @@ function StarredEntryList(props) {
         .filter((le) => db[le.id] || false)
         .map((le) => {
             const saved = db[le.id] || false;
-            return (
-                <div>
-                    <GridButtons changeLayout={changeLayout} />
-                    <Entry key={le.id} dict={le} saved={saved} view={view}
+            return (<Entry key={le.id} dict={le} saved={saved} view={view}
                         clickSave={(e) => clickSave(e, le.id)} />
-                </div>
             );
         });
-    return (entryList.length > 0) ? entryList : (
-        <div className="starred-entries__none">No Starred Entries.</div>)
+    if (entryList.length === 0) {
+        return (
+            <div className="starred-entries__none">No Starred Entries.</div>
+        );
+    }
+    return (<div>
+        <GridButtons changeLayout={changeLayout} />
+        {entryList}
+    </div>);
 }
 
 function EntryList(props) {
