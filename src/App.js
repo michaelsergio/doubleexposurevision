@@ -15,6 +15,17 @@ import cn from 'classnames/bind';
  * Add Agenda view for starred.
  */
 
+function GridButtons(props) {
+    return (
+        <div className="grid-buttons">
+            <input type="button" value="List" 
+                onClick={props.changeLayout} />
+            <input type="button" value="Card" 
+                onClick={props.changeLayout} />
+        </div>
+    );
+}
+
 function FilterDescription(props) {
     const filters = props.filters;
     const searchFilter = props.searchFilter;
@@ -69,8 +80,11 @@ function StarredEntryList(props) {
         .map((le) => {
             const saved = db[le.id] || false;
             return (
-                <Entry key={le.id} dict={le} saved={saved} view={view}
-                    clickSave={(e) => clickSave(e, le.id)} />
+                <div>
+                    <GridButtons changeLayout={(e) => this.changeLayout(e)} />
+                    <Entry key={le.id} dict={le} saved={saved} view={view}
+                        clickSave={(e) => clickSave(e, le.id)} />
+                </div>
             );
         });
     return (entryList.length > 0) ? entryList : (
@@ -119,6 +133,7 @@ function EntryList(props) {
             );
         });
     return (<div>
+        <GridButtons changeLayout={(e) => this.changeLayout(e)} />
         <FilterDescription filters={filters} 
             clearFilter={clearFilter}
             searchFilter={props.searchFilter} />
@@ -406,12 +421,6 @@ class App extends Component {
               </li>
       </ul>
         <div className="title">Double Exposure Vision - {this.state.source}</div>
-        <div className="grid-buttons">
-            <input type="button" value="List" 
-                onClick={(e) => this.changeLayout(e)} />
-            <input type="button" value="Card" 
-                onClick={(e) => this.changeLayout(e)} />
-        </div>
         <FilterButtons filter={(e)=>this.filter(e)} />
         <div className="App-intro">
             <Switch>
@@ -419,6 +428,7 @@ class App extends Component {
                     <EntryList {...props} entries={entries} db={db}
                         filters={filters} 
                         view={this.state.display}
+                        changeLayout={(e) => this.changeLayout(e)}
                         clearFilter={(e) => this.clearFilter(e)}
                         searchFilter={this.state.searchFilter}
                         clickSave={this.clickSave.bind(this)} />}
@@ -449,6 +459,7 @@ class App extends Component {
 }
 function Info() {
     return (<div>
+        <a href="https://dexposure.com/home.html">Double Exposure</a>
         <a className="random-link" 
           href="http://ipressgames.com/igx-update/">RPG Schedule</a> 
       </div>);
