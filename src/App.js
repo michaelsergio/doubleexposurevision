@@ -14,8 +14,9 @@ import { Navigation } from './Navigation.js';
 /*
  * TODO: 
  * Should have day dividers.
- * Add sort order. animations: joshwcomeau/react-flip-move 
- * Add Agenda view for starred.
+ * ~Add Agenda view for starred.~
+ * Fix parsing of rest.
+ * Fix first item parsing.
  */
 
 function entryToDateNum(listEntry) {
@@ -391,8 +392,16 @@ class App extends Component {
         return entries;
     }
   fromSource(src) {
-      if (src === "Dex21-live") {
+      if (src === "Dex21-larp-live") {
         const url = "https://www.dexposure.com/d21larp.html";
+        this.fetchLive(url).then((json) => {
+          this.setState({
+            entries: this.domParse(json),
+          });
+        });
+      }
+      else if (src === "Dex21-live") {
+        const url = "https://www.dexposure.com/d21complete.html";
         this.fetchLive(url).then((json) => {
           this.setState({
             entries: this.domParse(json),

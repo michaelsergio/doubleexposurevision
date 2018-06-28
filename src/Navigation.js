@@ -9,7 +9,7 @@ function Navigation(props) {
     const searchChange = props.searchChange;
     const searchFilter = props.searchFilter;
 
-    const events = ["Dex21", "Dex20", "Dex21-live"].map((x) => {
+    const events = ["Dex21", "Dex20", "Dex21-larp-live", "Dex21-live"].map((x) => {
         return (<EventItem key={x} name={x} source={source} 
             changeEvent={changeEvent} />)
     });
