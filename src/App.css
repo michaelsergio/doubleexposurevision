@@ -251,5 +251,13 @@ ul {
   margin-left: 10px;
   font-size: 12px;
 }
+.starred {
+  position: relative;
+
+}
+.starred-entries__sorter {
+  position: absolute;
+  right: 0
+}
 .starred-entries__none {
 }
