@@ -420,6 +420,7 @@ class App extends Component {
       const value = e.target.textContent;
       this.setState({
           source: value,
+          db: {},
       });
       this.fromSource(value)
   }
