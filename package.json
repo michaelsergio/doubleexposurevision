@@ -2,6 +2,7 @@
   "name": "doubleexposure",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://msergio.com/dev",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.4.1",

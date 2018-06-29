@@ -11,14 +11,6 @@ import FlipMove from 'react-flip-move';
 import { Navigation } from './Navigation.js';
 
 
-/*
- * TODO: 
- * Should have day dividers.
- * ~Add Agenda view for starred.~
- * Fix parsing of rest.
- * Fix first item parsing.
- */
-
 function entryToDateNum(listEntry) {
     try {
         const d = listEntry.day;
