@@ -127,13 +127,13 @@ class StarredEntryList extends Component{
         const entries = this.props.entries;
         const clickSave = this.props.clickSave;
         const changeLayout = this.props.changeLayout;
-        const db = this.props.db;
+        const starred = this.props.starred;
         const view = this.props.view;
         const sortOrder = this.state.sortOrder;
         const entryList = this.sort(sortOrder, entries.
-            filter((le) => db[le.id] || false))
+            filter((le) => starred[le.id] || false))
             .map((le) => {
-                const saved = db[le.id] || false;
+                const saved = starred[le.id] || false;
                 return (<Entry key={le.id} dict={le} saved={saved} view={view}
                     clickSave={(e) => clickSave(e, le.id)} />
                 );
@@ -164,7 +164,7 @@ function EntryList(props) {
     const entries = props.entries;
     const clickSave = props.clickSave;
     const clearFilter = props.clearFilter;
-    const db = props.db;
+    const starred = props.starred;
     const view = props.view;
     const changeLayout = props.changeLayout;
     const searchFilter = props.searchFilter;
@@ -195,7 +195,7 @@ function EntryList(props) {
             return filters.some(startsWith);
         })
         .map((le) => {
-            const saved = db[le.id] || false;
+            const saved = starred[le.id] || false;
             return (
                 <Entry key={le.id} dict={le} saved={saved} view={view}
                     clickSave={(e) => clickSave(e, le.id)} />
@@ -363,7 +363,7 @@ class App extends Component {
             entries: [],
             display: "Card",
             filters: [],
-            db: {},
+            starred: {},
             source: "Dex21",
             searchFilter: "",
         }
@@ -415,7 +415,7 @@ class App extends Component {
       const value = e.target.textContent;
       this.setState({
           source: value,
-          db: {},
+          starred: {},
       });
       this.fromSource(value)
   }
@@ -463,12 +463,12 @@ class App extends Component {
     }
 
   clickSave(event, id) {
-    const db = this.state.db;
-    const val = db[id] || false;
-    const newDb = Object.assign({}, db);
+    const starred = this.state.starred;
+    const val = starred[id] || false;
+    const newDb = Object.assign({}, starred);
     newDb[id] = !val;
     this.setState({
-      db: newDb,
+      starred: newDb,
     });
   }
   filter(e) {
@@ -502,7 +502,7 @@ class App extends Component {
   }
   render() {
     const filters = this.state.filters;
-    const db = this.state.db;
+    const starred = this.state.starred;
     const entries = this.state.entries;
     return (
         <Router>
@@ -520,7 +520,7 @@ class App extends Component {
         <div className="App-intro">
             <Switch>
                 <Route path="/" exact render={(props) => 
-                    <EntryList {...props} entries={entries} db={db}
+                    <EntryList {...props} entries={entries} starred={starred}
                         filters={filters} 
                         view={this.state.display}
                         changeLayout={(e) => this.changeLayout(e)}
@@ -529,7 +529,7 @@ class App extends Component {
                         clickSave={this.clickSave.bind(this)} />}
                 />
                 <Route path="/starred" exact render={(props) => 
-                    <StarredEntryList {...props} entries={entries} db={db}
+                    <StarredEntryList {...props} entries={entries} starred={starred}
                         view={this.state.display}
                         changeLayout={(e) => this.changeLayout(e)}
                         clickSave={this.clickSave.bind(this)} />}
@@ -543,11 +543,11 @@ class App extends Component {
                         searchFor={this.searchFor.bind(this)} />}
                 />
                 <Route path="/email" exact render={(props) => 
-                    <Email {...props} entries={this.state.db} />}
+                    <Email {...props} entries={this.state.starred} />}
                 />
                 <Route path="/info" exact component={Info} />
                 <Route path="/:id" exact render={(props) => 
-                    <EntryList {...props} entries={entries} db={db}
+                    <EntryList {...props} entries={entries} starred={starred}
                         filters={filters} 
                         view={this.state.display}
                         changeLayout={(e) => this.changeLayout(e)}
