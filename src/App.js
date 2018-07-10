@@ -4,8 +4,7 @@ import './App.css';
 import d21 from "./d21.json"
 import d20 from "./d20.json"
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
-import { HashRouter as Router, 
-         Route, Link, Switch, NavLink} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import cn from 'classnames/bind';
 import FlipMove from 'react-flip-move';
 import { Navigation } from './Navigation.js';
@@ -76,7 +75,7 @@ function FilterDescription(props) {
                     Filters: {text}
                     <a className="filter__clear"
                         onClick={clearFilter}
-                        href="#">Clear Filters</a>
+                        href="/">Clear Filters</a>
                 </div>
         }
         </div>
@@ -90,7 +89,7 @@ function TypeList(props) {
     const sortedTypes = Array.from(typeSet).sort();
     const typeDiv = sortedTypes.map((t) => {
       return (<div className="type-list__type" onClick={(e) => searchFor(t)} 
-        key={t}><a href="#">{t}</a></div>
+        key={t}><a href="/">{t}</a></div>
       );
     });
   return ( 
@@ -240,7 +239,7 @@ class SeeAlso extends Component {
         const seeAlso = this.props.txt.split(",")
             .map((x) => x.trim())
         //.map((x) => <Link to={"/" + x}>{x}</Link> );
-            .map((x) => <a key={x} href={"#" + x}>{x}</a> );
+        .map((x) => <a key={x} href={"/" + x}>{x}</a> );
         return ( <div className={classes}>See Also: {seeAlso}</div>)
     }
 }
@@ -255,7 +254,7 @@ function PeopleList(props) {
   const sortedPeople = Array.from(peopleSet).sort();
   const peopleDiv = sortedPeople.map((p) => {
     return (<div key={p} onClick={(e) => searchFor(p)}
-      className="person__name"><a href="#">{p}</a></div>);
+      className="person__name"><a href="/">{p}</a></div>);
   });
   return ( <div className="people-list">
     <div className="people-list__title">People</div>

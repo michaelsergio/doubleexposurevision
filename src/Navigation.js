@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import cn from 'classnames/bind';
-import { HashRouter as Router, 
-    Route, Link, Switch, NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 function Navigation(props) {
     const source = props.source;
