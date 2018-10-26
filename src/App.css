@@ -129,10 +129,14 @@ ul {
 .entry__time-row {
   display: flex;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
 }
 .entry__description {
   font-size: 14px;
+}
+.entry__description__raw {
+  font-size: 12px;
+  font-family: monospace;
 }
 .entry__day {
   margin-right:8px;
@@ -182,15 +186,22 @@ ul {
   margin-bottom: 2px;
 }
 .entry--listview > .entry__title-row > .entry__id {
-  font-size: 14px;
+  font-size: 18px;
 }
 .entry--listview > .entry__title-row > .entry__name {
-  font-size: 14px;
+  font-size: 18px;
   margin-top: auto;
   margin-bottom: auto;
 }
 .entry--listview > .entry__title-row > .entry__type {
+  font-size: 18px;
+}
+.entry--listview > .entry__time-row {
   font-size: 14px;
+  font-weight: normal;
+}
+.entry--listview .entry__day {
+  margin-right:2px;
 }
 .entry__see-also--listview { display: none; }
 .entry__by-row--listview { display: none; }

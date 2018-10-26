@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import cn from 'classnames/bind';
 
 class Entry extends Component {
+    state = {
+      showRawVersion: false,
+    };
+    toggleRaw() {
+      this.setState({
+        showRawVersion: !this.state.showRawVersion,
+      });
+    }
     render() {
         const e = this.props.dict;
         const savedClasses = cn("entry__save", {
@@ -28,6 +36,8 @@ class Entry extends Component {
         const statusClasses = cn("entry__status", {
             "entry__status--listview": isListView,
         });
+        const divLink = "#" + e.id;
+        const content = this.state.showRawVersion ? <div className="entry__description__raw">{e.raw}</div> : e.description;
         return (
             <div className={entryClasses} id={e.id}>
                 <div className="entry__title-row">
@@ -41,7 +51,10 @@ class Entry extends Component {
                     {e.author && <div className="entry__author">By {e.author}</div>}
                     {e.presenter && <div className="entry__presenter">Presented by {e.presenter}</div>}
                 </div>
-                <div className={descClasses}>{e.description}</div>
+                <div className={descClasses}>
+                  { content }
+                  <a href={divLink} onClick={e=>this.toggleRaw()}> Raw</a>
+                </div>
                 { e.seeAlso && <SeeAlso isListView={isListView} txt={e.seeAlso} /> }
                 <div className={extraClasses}>
                     <div className="entry__round badge badge-primary">{e.round}</div>

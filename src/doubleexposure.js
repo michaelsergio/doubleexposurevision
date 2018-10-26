@@ -91,6 +91,7 @@ function parseEntry(txt) {
     nextRound: nextRound,
     seeAlso: seeAlso,
     status: status,
+    raw: txt,
   };
   } catch (error) { 
     console.log("Could not parse: " + txt);
