@@ -9,6 +9,7 @@ import FilterButtons from './FilterButtons';
 import StarredEntryList from './StarredEntryList';
 import Entry from './Entry';
 import GridButtons from './GridButtons';
+import PeopleList from './PeopleList';
 import getFilters from './filters.js';
 
 
@@ -129,24 +130,6 @@ function Email(props) {
     <a href={mailLink}>Mail</a>
     </div>
   );
-}
-
-function PeopleList(props) {
-  const events = props.events;
-  const searchFor = props.searchFor;
-  const people = events
-    .map((e) => [e.author, e.presenter])
-    .reduce((acc, val) => acc.concat(val), []);
-  const peopleSet = new Set(people);
-  const sortedPeople = Array.from(peopleSet).sort();
-  const peopleDiv = sortedPeople.map((p) => {
-    return (<div key={p} onClick={(e) => searchFor(p)}
-      className="person__name"><a href="/">{p}</a></div>);
-  });
-  return ( <div className="people-list">
-    <div className="people-list__title">People</div>
-    {peopleDiv}
-    </div>);
 }
 
 class App extends Component {
