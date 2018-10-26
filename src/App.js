@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import d21 from "./d21.json"
-import d20 from "./d20.json"
+import d21 from "./sampledata/d21.json"
+import d20 from "./sampledata/d20.json"
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Navigation } from './Navigation.js';

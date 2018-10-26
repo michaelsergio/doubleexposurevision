@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
 import App from './App';
-import testdata from './d20.json';
+import testdata from './sampledata/d20.json'
 
 /*
 it('renders without crashing', () => {
