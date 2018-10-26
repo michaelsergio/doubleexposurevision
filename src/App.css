@@ -208,8 +208,14 @@ ul {
 .entry__description--listview { display: none; }
 .entry__extras--listview { display: none; }
 .entry__status--listview { display: none; }
-.entry__time-row--listview {
-
+.entry__raw__button {
+  color: blue;
+  float: right;
+  margin-top: 6px;
+  font-size: 10px;
+}
+.entry__raw__button:hover {
+  cursor: pointer;
 }
 .people-list {
   font-size: 14px;

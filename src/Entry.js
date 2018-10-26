@@ -37,7 +37,7 @@ class Entry extends Component {
             "entry__status--listview": isListView,
         });
         const divLink = "#" + e.id;
-        const content = this.state.showRawVersion ? <div className="entry__description__raw">{e.raw}</div> : e.description;
+        const content = this.state.showRawVersion ? <span className="entry__description__raw">{e.raw}</span> : e.description;
         return (
             <div className={entryClasses} id={e.id}>
                 <div className="entry__title-row">
@@ -53,7 +53,11 @@ class Entry extends Component {
                 </div>
                 <div className={descClasses}>
                   { content }
-                  <a href={divLink} onClick={e=>this.toggleRaw()}> Raw</a>
+                  <span 
+                    className="entry__raw__button"
+                    onClick={e=>this.toggleRaw()}>
+                    {this.state.showRawVersion ? "Parsed" : "Raw" }
+                  </span>
                 </div>
                 { e.seeAlso && <SeeAlso isListView={isListView} txt={e.seeAlso} /> }
                 <div className={extraClasses}>
