@@ -1,60 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import d21 from "./d21.json"
 import d20 from "./d20.json"
 import { parseEntry, getAllEntryTexts } from './doubleexposure.js'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
-import cn from 'classnames/bind';
-import FlipMove from 'react-flip-move';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Navigation } from './Navigation.js';
+import FilterButtons from './FilterButtons';
+import StarredEntryList from './StarredEntryList';
+import Entry from './Entry';
+import GridButtons from './GridButtons';
+import getFilters from './filters.js';
 
 
-function entryToDateNum(listEntry) {
-    try {
-        const d = listEntry.day;
-        let dayNum = 0;
-        if (d.indexOf("Mon") !== -1) dayNum = 1;
-        else if (d.indexOf("Tue") !== -1) dayNum = 2;
-        else if (d.indexOf("Wed") !== -1) dayNum = 3;
-        else if (d.indexOf("Thu") !== -1) dayNum = 4;
-        else if (d.indexOf("Fri") !== -1) dayNum = 5;
-        else if (d.indexOf("Sat") !== -1) dayNum = 6;
-        else if (d.indexOf("Sun") !== -1) dayNum = 7;
-
-        const timeStart = listEntry.time.split(" ")[0];
-        const mIndex = timeStart.indexOf("M");
-        const isPM = timeStart[mIndex - 1] === "P";
-        const time1200 = timeStart.substring(0, mIndex - 2).replace(":", "");
-        const time2400 = parseInt(time1200) + (isPM ? 2400 : 0) ;
-        return dayNum * 10000 + time2400;
-    } catch(error) { return 0; }
-}
-
-function getFilters(value) {
-      if (value === "LARP") return ['Q', 'L'];
-      else if (value === "NAGA") return ['G'];
-      else if (value === "DnD") return ['N'];
-      else if (value === "RPG") return ['R'];
-      else if (value === "Board Games") return ['B'];
-      else if (value === "Arena / Wargamming") return ['A', 'G'];
-      else if (value === "Collectable Games") return ['C'];
-      else if (value === "Video Games") return ['V'];
-      else if (value === "Pencil Puzzles") return ['P'];
-      else if (value === "Special Events & Panels") return ['S'];
-      else return [];
-}
-
-function GridButtons(props) {
-    return (
-        <div className="grid-buttons">
-            <input type="button" value="List" 
-                onClick={props.changeLayout} />
-            <input type="button" value="Card" 
-                onClick={props.changeLayout} />
-        </div>
-    );
-}
 
 function FilterDescription(props) {
     const filters = props.filters;
@@ -100,63 +57,6 @@ function TypeList(props) {
   );
 }
 
-class StarredEntryList extends Component{
-    constructor(props) {
-        super(props)
-        this.state = {sortOrder: "time", };
-    }
-    changeSortOrder(e) {
-        this.setState({
-            sortOrder: e.target.value,
-        });
-    }
-    sort(strategy, entries) {
-        if (strategy === "time") {
-            return entries.sort((x,y) => entryToDateNum(x) - entryToDateNum(y));
-        }
-        else if (strategy === "name") {
-            return entries.sort((x,y) => x.name.localeCompare(y.name));
-        }
-        else if (strategy === "id") {
-            return entries.sort((x,y) => x.id.localeCompare(y.id));
-        }
-        return entries;
-    }
-    render() {
-        const entries = this.props.entries;
-        const clickSave = this.props.clickSave;
-        const changeLayout = this.props.changeLayout;
-        const starred = this.props.starred;
-        const view = this.props.view;
-        const sortOrder = this.state.sortOrder;
-        const entryList = this.sort(sortOrder, entries.
-            filter((le) => starred[le.id] || false))
-            .map((le) => {
-                const saved = starred[le.id] || false;
-                return (<Entry key={le.id} dict={le} saved={saved} view={view}
-                    clickSave={(e) => clickSave(e, le.id)} />
-                );
-            });
-        if (entryList.length === 0) {
-            return (
-                <div className="starred-entries__none">No Starred Entries.</div>
-            );
-        }
-        return (<div className="starred">
-            <GridButtons changeLayout={changeLayout} />
-            <select className="starred-entries__sorter"
-                onChange={(e) =>this.changeSortOrder(e)} id="" name="">
-                    <option value="none">No Sort Order</option>
-                    <option value="name">Name</option>
-                    <option value="id">ID</option>
-                    <option value="time" selected>Time</option>
-            </select>
-            <FlipMove enterAnimation="fade" leaveAnimation="fade">
-                {entryList}
-            </FlipMove>
-        </div>);
-    }
-}
 
 function EntryList(props) {
     const filters = props.filters;
@@ -231,19 +131,6 @@ function Email(props) {
   );
 }
 
-class SeeAlso extends Component {
-    render() {
-        const classes = cn("entry__see-also", {
-            "entry__see-also--listview": this.props.isListView,
-        });
-        const seeAlso = this.props.txt.split(",")
-            .map((x) => x.trim())
-        //.map((x) => <Link to={"/" + x}>{x}</Link> );
-        .map((x) => <a key={x} href={"/" + x}>{x}</a> );
-        return ( <div className={classes}>See Also: {seeAlso}</div>)
-    }
-}
-
 function PeopleList(props) {
   const events = props.events;
   const searchFor = props.searchFor;
@@ -260,99 +147,6 @@ function PeopleList(props) {
     <div className="people-list__title">People</div>
     {peopleDiv}
     </div>);
-}
-
-class Entry extends Component {
-    render() {
-        const e = this.props.dict;
-        const savedClasses = cn("entry__save", {
-            "entry__save--saved": this.props.saved
-        });
-        const isListView = this.props.view === "List";
-        const isFull = e !== undefined && e.status.indexOf("FILLED") !== -1;
-        const idClasses = cn("entry__id", {
-            "entry__id--filled": isFull,
-        });
-        const entryClasses = cn("entry", {
-            "entry--filled": isFull,
-            "entry--listview": isListView,
-        });
-        const byRowClasses = cn("entry__by-row", {
-            "entry__by-row--listview": isListView,
-        });
-        const descClasses = cn("entry__description", {
-            "entry__description--listview": isListView,
-        });
-        const extraClasses = cn("entry__extras", {
-            "entry__extras--listview": isListView,
-        });
-        const statusClasses = cn("entry__status", {
-            "entry__status--listview": isListView,
-        });
-        return (
-            <div className={entryClasses} id={e.id}>
-                <div className="entry__title-row">
-                    <div className={idClasses}>{e.id}</div>
-                    <div className="entry__name"> {e.name} </div>
-                    <div className="entry__type"> {e.type} </div>
-                    <div className={savedClasses} saved={e.saved}
-                        onClick={this.props.clickSave}></div>
-                </div>
-                <div className={byRowClasses}>
-                    {e.author && <div className="entry__author">By {e.author}</div>}
-                    {e.presenter && <div className="entry__presenter">Presented by {e.presenter}</div>}
-                </div>
-                <div className={descClasses}>{e.description}</div>
-                { e.seeAlso && <SeeAlso isListView={isListView} txt={e.seeAlso} /> }
-                <div className={extraClasses}>
-                    <div className="entry__round badge badge-primary">{e.round}</div>
-                    <div className="entry__material badge badge-primary">{e.material}</div>
-                    <div className="entry__level badge badge-primary">{e.level}</div>
-                    <div className="entry__attitude badge badge-primary">{e.attitude}</div>
-                    <div className="entry__age badge badge-primary">{e.age}</div>
-                    <div className="entry__next-round badge badge-primary">{e.nextRound}</div>
-                </div>
-                <div className={statusClasses}>{e.status}</div>
-                <div className="entry__time-row">
-                    <div className="entry__day">{e.day}</div>
-                    <div className="entry__time">{e.time}</div>
-                </div>
-            </div>
-        )
-    }
-}
-
-function isSelected(title, filters) {
-    const titleFilters = getFilters(title)
-    return titleFilters.length === filters.length && 
-        titleFilters.every((x) => filters.includes(x));
-}
-
-function FilterButtons(props) {
-    const currentFilter = props.currentFilter;
-    const filter = props.filter;
-    const Button = (props) => {
-        const value = props.value;
-        const event = props.event;
-    };
-    const titles = ["All", "LARP", "NAGA", "DnD", "RPG", "Board Games",
-        "Arena / Wargamming", "Collectable Games", "Video Games",
-        "Pencil Puzzles", "Special Events & Panels",
-    ];
-    const buttons = titles.map((t) => {
-        const selected = isSelected(t, currentFilter);
-        const buttonClasses = cn("btn", {
-            "btn-primary": selected,
-            "btn-secondary": !selected,
-        });
-        return (<input 
-            className={buttonClasses}
-            key={t}
-            type="button" 
-            onClick={filter} 
-            value={t} />);
-    });
-    return (<div className="filter-buttons">{buttons}</div>);
 }
 
 class App extends Component {
@@ -403,6 +197,14 @@ class App extends Component {
           this.setState({
               entries: this.domParse(d21),
           });
+      }
+      else if (src === "Met2018-live") {
+        const url = "https://www.dexposure.com/m2018special.html";
+        this.fetchLive(url).then((json) => {
+          this.setState({
+            entries: this.domParse(json),
+          });
+        });
       }
       else if (src === "Dex20") {
           this.setState({

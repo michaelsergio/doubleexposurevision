@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import cn from 'classnames/bind';
 import { NavLink } from 'react-router-dom'
 
@@ -8,7 +8,13 @@ function Navigation(props) {
     const searchChange = props.searchChange;
     const searchFilter = props.searchFilter;
 
-    const events = ["Dex21", "Dex20", "Dex21-larp-live", "Dex21-live"].map((x) => {
+  const events = [
+    "Dex21", 
+    "Dex20", 
+    "Dex21-larp-live", 
+    "Dex21-live",
+    "Met2018-live",
+  ].map((x) => {
         return (<EventItem key={x} name={x} source={source} 
             changeEvent={changeEvent} />)
     });
