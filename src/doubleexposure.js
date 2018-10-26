@@ -18,7 +18,7 @@ function parseEntry(txt) {
   });
 
   const main = topMatch[5];
-  const parts = main.split(';');
+  const parts = main.split('M;');
 
   const mainPart = parts[0];
 
@@ -27,7 +27,7 @@ function parseEntry(txt) {
     const core = mainPart.match(mainRegex);
   const desc = core[1].trim();
   const day = core[2];
-  const time = core[3];
+  const time = core[3] + 'M';
 
   let round = "";
   let material =  "";
@@ -92,7 +92,11 @@ function parseEntry(txt) {
     seeAlso: seeAlso,
     status: status,
   };
-  } catch (error) { return null; }
+  } catch (error) { 
+    console.log("Could not parse: " + txt);
+    console.log(error);
+    return null; 
+  }
 }
 
 function getAllEntryTexts(doc) {
