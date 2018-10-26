@@ -84,7 +84,8 @@ ul {
 .entry__name {
   font-weight: bold;
   font-size: 24px;
-  max-width: 480px;
+  max-width: 540px;
+  line-height: 1.2;
   display: inline;
 }
 .entry__type {
