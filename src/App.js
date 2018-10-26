@@ -180,6 +180,7 @@ class App extends Component {
           source: value,
           starred: {},
       });
+      this.saveEventToLocalStorage(value);
       this.fromSource(value)
   }
     hydrateStateWithLocalStorage() {
@@ -197,6 +198,14 @@ class App extends Component {
         }
     }
 
+    getEventFromLocalStorage(event) {
+      const value = localStorage.getItem("event");
+      return JSON.parse(value || '"Dex21"');
+    }
+    saveEventToLocalStorage(event) {
+      localStorage.setItem("event", JSON.stringify(event));
+    }
+
     saveStateToLocalStorage() {
         for (let key in this.state) {
             localStorage.setItem(key, JSON.stringify(this.state[key]));
@@ -206,7 +215,9 @@ class App extends Component {
   componentDidMount() {
       this.hydrateStateWithLocalStorage();
 
-      const src = this.state.source;
+      const src = this.getEventFromLocalStorage();
+
+    //const src = this.state.source;
       this.fromSource(src);
 
       // add event listener to save state to localStorage
