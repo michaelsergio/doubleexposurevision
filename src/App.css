@@ -262,3 +262,9 @@ ul {
 }
 .starred-entries__none {
 }
+
+@media (max-width: 1200px) {
+  .filter-buttons {
+    display: none;
+  }
+}

@@ -8,7 +8,7 @@ function getFilters(value) {
       else if (value === "Collectable Games") return ['C'];
       else if (value === "Video Games") return ['V'];
       else if (value === "Pencil Puzzles") return ['P'];
-      else if (value === "Special Events & Panels") return ['S'];
+      else if (value === "Special Events & Panels") return ['D', 'S'];
       else return [];
 }
 export default getFilters;
