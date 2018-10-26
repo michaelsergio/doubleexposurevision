@@ -110,6 +110,7 @@ ul {
 .entry__title-row {
   display: flex;
   position: relative;
+  margin-bottom: 0.8%;
 }
 .entry__save {
   /* margin-left: auto; */
