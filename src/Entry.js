@@ -53,7 +53,7 @@ class Entry extends Component {
                 </div>
                 <div className={descClasses}>
                   { content }
-                  <span 
+                  <span
                     className="entry__raw__button"
                     onClick={e=>this.toggleRaw()}>
                     {this.state.showRawVersion ? "Parsed" : "Raw" }
@@ -66,9 +66,10 @@ class Entry extends Component {
                     <div className="entry__level badge badge-primary">{e.level}</div>
                     <div className="entry__attitude badge badge-primary">{e.attitude}</div>
                     <div className="entry__age badge badge-primary">{e.age}</div>
+                    { e.hiTest && <div className="entry__hitest badge badge-danger">This is a HI-TEST Session.</div> }
                     <div className="entry__next-round badge badge-primary">{e.nextRound}</div>
                 </div>
-                <div className={statusClasses}>{e.status}</div>
+                <div className={statusClasses}>{e.status} {e.testType}</div>
                 <div className="entry__time-row">
                     <div className="entry__day">{e.day}</div>
                     <div className="entry__time">{e.time}</div>

@@ -1,12 +1,13 @@
 function parseEntry(txt) {
   try {
   // const parts = txt.split(";");
-  const topRegex = /([A-Z]\d+): (.+?; )?(".+?")\.? (.+?\.?)\.(.+)/;
+  const topRegex = /([A-Z]\d+):( \[.+\])? (.+?; )?(".+?")\.? (.+?\.?)\.(.+)/;
   const topMatch = txt.match(topRegex);
+  const test = (topMatch[2] || "").trim();
   const id = topMatch[1];
-  const type = (topMatch[2] || "").trim().slice(0, -1);
-  const name = topMatch[3].trim().slice(1, -1);
-  const byline = topMatch[4];
+  const type = (topMatch[3] || "").trim().slice(0, -1);
+  const name = topMatch[4].trim().slice(1, -1);
+  const byline = topMatch[5];
   let presenter = "";
   let author = "";
   byline.split(';').map((x) => x.trim()).forEach((part) => {
@@ -17,12 +18,12 @@ function parseEntry(txt) {
     }
   });
 
-  const main = topMatch[5];
+  const main = topMatch[6];
   const parts = main.split('M;');
 
   const mainPart = parts[0];
 
-  const mainRegex = 
+  const mainRegex =
     /(.+)(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (.+)/;
     const core = mainPart.match(mainRegex);
   const desc = core[1].trim();
@@ -37,6 +38,7 @@ function parseEntry(txt) {
   let nextRound = "";
   let seeAlso = "";
   let status = "";
+  let hiTest = false;
 
   let materialsAndLevel = "";
   let final = "";
@@ -44,6 +46,9 @@ function parseEntry(txt) {
     round = parts[1].trim();
     materialsAndLevel = parts[2];
     final = parts[3];
+  }
+  else if (parts.length === 2) {
+    final = parts[1];
   }
 
   const mal = materialsAndLevel.split(".")
@@ -69,6 +74,9 @@ function parseEntry(txt) {
     else if (item.indexOf("See Also:") !== -1) {
       seeAlso = (item.match(/See Also: (.+)/) || noMatch)[1];
     }
+    else if (item.indexOf("This is a HI-TEST session") !== -1) {
+      hiTest = true;
+    }
     else if (item.trim().length !== 0) {
       status = item.trim();
     }
@@ -91,12 +99,14 @@ function parseEntry(txt) {
     nextRound: nextRound,
     seeAlso: seeAlso,
     status: status,
+    testType: test,
+    hiTest: hiTest,
     raw: txt,
   };
-  } catch (error) { 
+  } catch (error) {
     console.log("Could not parse: " + txt);
     console.log(error);
-    return null; 
+    return null;
   }
 }
 

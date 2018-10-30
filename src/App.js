@@ -161,7 +161,7 @@ class App extends Component {
           });
       }
       else if (src === "Met2018-live") {
-        const url = "https://www.dexposure.com/m2018special.html";
+        const url = "https://www.dexposure.com/m2018complete.html";
         this.fetchLive(url).then((json) => {
           this.setState({
             entries: this.domParse(json),
