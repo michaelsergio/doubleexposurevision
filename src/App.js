@@ -69,6 +69,7 @@ function EntryList(props) {
     const view = props.view;
     const changeLayout = props.changeLayout;
     const searchFilter = props.searchFilter;
+    const commonEntries = groupBy(entries, "name");
     const entryList = entries
         .filter((le) => {
             if (searchFilter.length < 2) return true;
@@ -98,8 +99,9 @@ function EntryList(props) {
         .map((le) => {
             const saved = starred[le.id] || false;
             return (
-                <Entry key={le.id} dict={le} saved={saved} view={view}
-                    clickSave={(e) => clickSave(e, le.id)} />
+              <Entry key={le.id} dict={le} saved={saved} view={view}
+                similar={commonEntries[le.name]}
+                clickSave={(e) => clickSave(e, le.id)} />
             );
         });
     return (<div>
@@ -278,6 +280,7 @@ class App extends Component {
     const filters = this.state.filters;
     const starred = this.state.starred;
     const entries = this.state.entries;
+    const commonEntries = groupBy(entries, "name");
     return (
         <Router>
       <div className="container">
@@ -303,10 +306,12 @@ class App extends Component {
                         clickSave={this.clickSave.bind(this)} />}
                 />
                 <Route path="/starred" exact render={(props) => 
-                    <StarredEntryList {...props} entries={entries} starred={starred}
-                        view={this.state.display}
-                        changeLayout={(e) => this.changeLayout(e)}
-                        clickSave={this.clickSave.bind(this)} />}
+                    <StarredEntryList {...props} entries={entries} 
+                      starred={starred}
+                      commonEntries={commonEntries}
+                      view={this.state.display}
+                      changeLayout={(e) => this.changeLayout(e)}
+                      clickSave={this.clickSave.bind(this)} />}
                 />
                 <Route path="/people" exact render={(props) => 
                     <PeopleList {...props} events={entries} 
@@ -343,4 +348,13 @@ function Info() {
           href="http://ipressgames.com/igx-update/">RPG Schedule</a> 
       </div>);
 }
+
+function groupBy(xs, key) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+}
+
+
 export default App;

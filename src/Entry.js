@@ -11,8 +11,11 @@ class Entry extends Component {
       });
     }
     render() {
-        const e = this.props.dict;
-        const savedClasses = cn("entry__save", {
+      const e = this.props.dict;
+      const similar = (this.props.similar || [])
+        .filter(se => se.id !== e.id)
+        .map(se => <SimilarEntry key={se.id} entry={se} />);
+      const savedClasses = cn("entry__save", {
             "entry__save--saved": this.props.saved
         });
         const isListView = this.props.view === "List";
@@ -60,13 +63,14 @@ class Entry extends Component {
                   </span>
                 </div>
                 { e.seeAlso && <SeeAlso isListView={isListView} txt={e.seeAlso} /> }
+                { similar.length > 0 && <div className="entry__similar__entries">Similar: {similar}</div> }
                 <div className={extraClasses}>
                     <div className="entry__round badge badge-primary">{e.round}</div>
                     <div className="entry__material badge badge-primary">{e.material}</div>
                     <div className="entry__level badge badge-primary">{e.level}</div>
                     <div className="entry__attitude badge badge-primary">{e.attitude}</div>
                     <div className="entry__age badge badge-primary">{e.age}</div>
-                    { e.hiTest && <div className="entry__hitest badge badge-danger">This is a HI-TEST Session.</div> }
+                    { e.hiTest && <div className="entry__hitest badge badge-warning">This is a HI-TEST Session.</div> }
                     <div className="entry__next-round badge badge-primary">{e.nextRound}</div>
                 </div>
                 <div className={statusClasses}>{e.status} {e.testType}</div>
@@ -79,6 +83,28 @@ class Entry extends Component {
     }
 }
 
+class SimilarEntry extends Component {
+    isFull(se) {
+      return se.status.indexOf(" 0 seats") !== -1;
+    }
+    render() {
+      const se = this.props.entry;
+      const isFull = this.isFull(se);
+      const classes = cn("entry__similar", {
+        "entry__similar--hitest": se.hiTest,
+        "entry__similar--full": isFull,
+      });
+      const title = se.id + 
+        (se.hiTest ? " is a hitest." : "") + 
+        (isFull ? " This is full." : "");
+      return (<a className={classes}
+        title={title}
+        key={se.id}
+        href={"#" + se.id}>
+        {se.id} {se.day.substring(0,3)} {se.time}
+      </a>);
+    }
+}
 class SeeAlso extends Component {
     render() {
         const classes = cn("entry__see-also", {

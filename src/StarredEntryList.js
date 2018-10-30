@@ -32,11 +32,12 @@ class StarredEntryList extends Component{
         const starred = this.props.starred;
         const view = this.props.view;
         const sortOrder = this.state.sortOrder;
-      const entryList = this.sort(sortOrder, entries
-        .filter((le) => starred[le.id] || false))
+      const entryList = this.sort(sortOrder, entries)
+        .filter((le) => starred[le.id] || false)
         .map((le) => {
             const saved = starred[le.id] || false;
             return (<Entry key={le.id} dict={le} saved={saved} view={view}
+                similar={this.props.commonEntries[le.name]}
                 clickSave={(e) => clickSave(e, le.id)} />
             );
         });

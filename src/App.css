@@ -132,6 +132,18 @@ ul {
   font-weight: bold;
   font-size: 16px;
 }
+.entry__similar__entries {
+  font-size: 12px;
+}
+.entry__similar {
+  margin-right:8px;
+}
+.entry__similar--hitest {
+  color: orange;
+}
+.entry__similar--full {
+  color: red;
+}
 .entry__description {
   font-size: 14px;
 }
