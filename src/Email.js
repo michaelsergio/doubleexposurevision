@@ -7,7 +7,9 @@ function makeEmailLink(recipient, subject, body) {
 
 function Email(props) {
   const entries = props.entries;
-  const plainText = Object.keys(entries).sort().join("\n");
+  const plainText = Object.keys(entries)
+    .sort((a,b) => a.substring(1).localeCompare(b.substring(1)))
+    .join("\n");
   const mailLink = makeEmailLink(
     "vinny@example.com", 
     "Registration", 
