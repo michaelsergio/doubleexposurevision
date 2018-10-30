@@ -202,7 +202,7 @@ class App extends Component {
 
     getEventFromLocalStorage(event) {
       const value = localStorage.getItem("event");
-      return JSON.parse(value || '"Dex21"');
+      return JSON.parse(value || '"Met2018-live"');
     }
     saveEventToLocalStorage(event) {
       localStorage.setItem("event", JSON.stringify(event));
