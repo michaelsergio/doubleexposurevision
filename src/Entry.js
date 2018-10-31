@@ -40,6 +40,7 @@ class Entry extends Component {
             "entry__status--listview": isListView,
         });
         const divLink = "#" + e.id;
+        const testTypeNoBrackets = e.testType.slice(1, -1);
         const content = this.state.showRawVersion ? <span className="entry__description__raw">{e.raw}</span> : e.description;
         return (
             <div className={entryClasses} id={e.id}>
@@ -70,10 +71,11 @@ class Entry extends Component {
                     <div className="entry__level badge badge-primary">{e.level}</div>
                     <div className="entry__attitude badge badge-primary">{e.attitude}</div>
                     <div className="entry__age badge badge-primary">{e.age}</div>
+                    <div className="entry__testType badge badge-primary">{testTypeNoBrackets}</div>
                     { e.hiTest && <div className="entry__hitest badge badge-warning">This is a HI-TEST Session.</div> }
                     <div className="entry__next-round badge badge-primary">{e.nextRound}</div>
                 </div>
-                <div className={statusClasses}>{e.status} {e.testType}</div>
+                <div className={statusClasses}>{e.status}</div>
                 <div className="entry__time-row">
                     <div className="entry__day">{e.day}</div>
                     <div className="entry__time">{e.time}</div>
@@ -94,8 +96,8 @@ class SimilarEntry extends Component {
         "entry__similar--hitest": se.hiTest,
         "entry__similar--full": isFull,
       });
-      const title = se.id + 
-        (se.hiTest ? " is a hitest." : "") + 
+      const title = se.id +
+        (se.hiTest ? " is a hitest." : "") +
         (isFull ? " This is full." : "");
       return (<a className={classes}
         title={title}
