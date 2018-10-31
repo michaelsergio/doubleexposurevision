@@ -23,6 +23,7 @@ class App extends Component {
             starred: {},
             source: "Dex21",
             searchFilter: "",
+            loading: true,
         }
     }
     fetchLive(url) {
@@ -41,6 +42,7 @@ class App extends Component {
         return entries;
     }
   fromSource(src) {
+    this.setState({loading: true});
     const liveMap = {
       "Dex21-larp-live": "https://www.dexposure.com/d21larp.html",
       "Dex21-live": "https://www.dexposure.com/d21complete.html",
@@ -54,6 +56,7 @@ class App extends Component {
       this.fetchLive(url).then((json) => {
         this.setState({
           entries: this.domParse(json),
+          loading: false,
         });
       });
     }
@@ -190,6 +193,7 @@ class App extends Component {
             <Switch>
                 <Route path="/" exact render={(props) => 
                     <EntryList {...props} entries={entries} starred={starred}
+                        loading={this.state.loading}
                         filters={filters} 
                         view={this.state.display}
                         changeLayout={(e) => this.changeLayout(e)}

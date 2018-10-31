@@ -12,6 +12,8 @@ function EntryList(props) {
     const changeLayout = props.changeLayout;
     const searchFilter = props.searchFilter;
     const commonEntries = groupBy(entries, "name");
+    if (props.loading) return <div> Loading... </div>;
+    if (entries.length === 0) return <div>No entries found</div>;
     const entryList = entries
         .filter((le) => {
             if (searchFilter.length < 2) return true;
