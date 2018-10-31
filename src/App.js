@@ -41,34 +41,26 @@ class App extends Component {
         return entries;
     }
   fromSource(src) {
-      if (src === "Dex21-larp-live") {
-        const url = "https://www.dexposure.com/d21larp.html";
-        this.fetchLive(url).then((json) => {
-          this.setState({
-            entries: this.domParse(json),
-          });
+    const liveMap = {
+      "Dex21-larp-live": "https://www.dexposure.com/d21larp.html",
+      "Dex21-live": "https://www.dexposure.com/d21complete.html",
+      "Met2018-live": "https://www.dexposure.com/m2018complete.html",
+      "Metatopia 2018": "https://www.dexposure.com/m2018complete.html",
+      "Dreamation 2019": "https://www.dexposure.com/d2019complete.html",
+      "Dexcon 22": "https://www.dexposure.com/d22complete.html",
+    };
+    if (liveMap.hasOwnProperty(src)) {
+      const url = liveMap[src];
+      this.fetchLive(url).then((json) => {
+        this.setState({
+          entries: this.domParse(json),
         });
-      }
-      else if (src === "Dex21-live") {
-        const url = "https://www.dexposure.com/d21complete.html";
-        this.fetchLive(url).then((json) => {
-          this.setState({
-            entries: this.domParse(json),
-          });
-        });
-      }
+      });
+    }
       else if (src === "Dex21") {
           this.setState({
               entries: this.domParse(d21),
           });
-      }
-      else if (src === "Met2018-live") {
-        const url = "https://www.dexposure.com/m2018complete.html";
-        this.fetchLive(url).then((json) => {
-          this.setState({
-            entries: this.domParse(json),
-          });
-        });
       }
       else if (src === "Dex20") {
           this.setState({

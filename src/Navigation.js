@@ -14,6 +14,9 @@ function Navigation(props) {
     "Dex21-larp-live", 
     "Dex21-live",
     "Met2018-live",
+    "Metatopia 2018",
+    "Dreamation 2019",
+    "Dexcon 22",
   ].map((x) => {
         return (<EventItem key={x} name={x} source={source} 
             changeEvent={changeEvent} />)
