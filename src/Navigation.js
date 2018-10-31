@@ -19,7 +19,7 @@ function Navigation(props) {
             changeEvent={changeEvent} />)
     });
     return (
-        <ul className="navigation" role="navigation">
+        <ul className="navigation navbar fixed-top" role="navigation">
             <li><NavLink to="/" exact activeClassName="navigation--selected">List</NavLink></li>
             <li><NavLink to="/people" activeClassName="navigation--selected">People</NavLink></li>
             <li><NavLink to="/system" activeClassName="navigation--selected">Systems</NavLink></li>

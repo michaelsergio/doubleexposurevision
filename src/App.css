@@ -1,3 +1,6 @@
+.root {
+  margin-top: 56px;
+}
 .App {
   text-align: center;
 }
@@ -34,14 +37,14 @@ ul {
   list-style: none;
 }
 .navigation {
+  padding: 0 18%;
+  background: whitesmoke;
   display: flex;
   box-shadow: 5px 10px 20px -20px rgba(85,172,238,1);
   border: 2px solid rgba(238,238,238 ,1);
   border-radius: 5px;
-  padding: 0 0 0 10px;
   height: 46px;
   align-items: center;
-  background-color: white;
 }
 .navigation li {
   cursor: pointer;
