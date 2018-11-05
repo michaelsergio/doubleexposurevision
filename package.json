@@ -2,7 +2,7 @@
   "name": "doubleexposure",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://msergio.com/dev",
+  "homepage": "http://msergio.com/dexvis",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.4.1",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom"
