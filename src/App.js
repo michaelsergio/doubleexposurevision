@@ -21,7 +21,7 @@ class App extends Component {
             display: "Card",
             filters: [],
             starred: {},
-            source: "Dex21",
+            source: "Dex22",
             searchFilter: "",
             loading: true,
         }
@@ -44,12 +44,12 @@ class App extends Component {
   fromSource(src) {
     this.setState({loading: true});
     const liveMap = {
+      "Dex22": "https://www.dexposure.com/d22complete.html",
       "Dex21-larp-live": "https://www.dexposure.com/d21larp.html",
       "Dex21-live": "https://www.dexposure.com/d21complete.html",
       "Met2018-live": "https://www.dexposure.com/m2018complete.html",
       "Metatopia 2018": "https://www.dexposure.com/m2018complete.html",
       "Dreamation 2019": "https://www.dexposure.com/d2019complete.html",
-      "Dexcon 22": "https://www.dexposure.com/d22complete.html",
     };
     if (liveMap.hasOwnProperty(src)) {
       const url = liveMap[src];
