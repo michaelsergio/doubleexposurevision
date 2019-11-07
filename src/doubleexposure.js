@@ -104,8 +104,8 @@ function parseEntry(txt) {
     raw: txt,
   };
   } catch (error) {
-    console.log("Could not parse: " + txt);
-    console.log(error);
+    console.log("Could not parse: ", txt, error);
+    // console.log(error);
     return null;
   }
 }

@@ -9,6 +9,7 @@ function Navigation(props) {
     const searchFilter = props.searchFilter;
 
   const events = [
+    "Met2019-live",
     "Dex21", 
     "Dex20", 
     "Dex21-larp-live", 

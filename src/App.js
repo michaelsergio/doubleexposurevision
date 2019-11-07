@@ -28,8 +28,9 @@ class App extends Component {
     }
     fetchLive(url) {
         const encodedUrl = encodeURIComponent(url);
-        const coUrl = `http://allorigins.me/get?url=${encodedUrl}`;
-        return fetch(coUrl).then((response) => response.json())
+        const proxyDomain = "http://localhost:8888";
+        const coUrl = `${proxyDomain}/get?url=${encodedUrl}`;
+        return fetch(coUrl).then((response) => response.json());
     }
     domParse(json) {
         const parser = new DOMParser();
@@ -44,12 +45,13 @@ class App extends Component {
   fromSource(src) {
     this.setState({loading: true});
     const liveMap = {
-      "Dex22": "https://www.dexposure.com/d22complete.html",
-      "Dex21-larp-live": "https://www.dexposure.com/d21larp.html",
-      "Dex21-live": "https://www.dexposure.com/d21complete.html",
-      "Met2018-live": "https://www.dexposure.com/m2018complete.html",
-      "Metatopia 2018": "https://www.dexposure.com/m2018complete.html",
-      "Dreamation 2019": "https://www.dexposure.com/d2019complete.html",
+      "Met2019-live": "http://www.dexposure.com/m2019complete.html",
+      "Dex22": "http://www.dexposure.com/d22complete.html",
+      "Dex21-larp-live": "http://www.dexposure.com/d21larp.html",
+      "Dex21-live": "http://www.dexposure.com/d21complete.html",
+      "Met2018-live": "http://www.dexposure.com/m2018complete.html",
+      "Metatopia 2018": "http://www.dexposure.com/m2018complete.html",
+      "Dreamation 2019": "http://www.dexposure.com/d2019complete.html",
     };
     if (liveMap.hasOwnProperty(src)) {
       const url = liveMap[src];
